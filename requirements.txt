@@ -1,3 +1,4 @@
+pip==26.1.2
 asgiref
 crispy-bootstrap4
 dj-database-url
