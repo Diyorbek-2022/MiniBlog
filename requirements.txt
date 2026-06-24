@@ -14,5 +14,7 @@ python-dotenv
 six
 sqlparse
 tzdata
-url
+urllib.parse
+furl 
 whitenoise
+
