@@ -16,4 +16,4 @@ sqlparse
 tzdata
 furl 
 whitenoise
-
+gunicorn
