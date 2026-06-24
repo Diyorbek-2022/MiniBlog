@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}500 - Server xatosi{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-1 text-warning">500</h1>
+    <h2 class="mb-4">Server xatosi</h2>
+    <p class="lead">Kutilmagan xatolik yuz berdi. Iltimos, birozdan keyin qayta urinib ko'ring.</p>
+    <a href="{% url 'home' %}" class="btn btn-warning">Bosh sahifaga qaytish</a>
+</div>
+{% endblock %}

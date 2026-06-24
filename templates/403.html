@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}403 - Ruxsat yo'q{% endblock %}
+{% block content %}
+<div class="text-center py-5">
+    <h1 class="display-1 text-danger">403</h1>
+    <h2 class="mb-4">Ruxsat yo'q</h2>
+    <p class="lead">Sizda ushbu sahifani ko'rish uchun ruxsat mavjud emas.</p>
+    <a href="{% url 'home' %}" class="btn btn-danger">Bosh sahifaga qaytish</a>
+</div>
+{% endblock %}

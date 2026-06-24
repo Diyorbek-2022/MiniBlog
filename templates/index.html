@@ -1,0 +1,447 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    {% if user_info %}
+        {{ user_info.name }} {{ user_info.surname }} | Portfolio
+    {% else %}
+        Home Page
+    {% endif %}
+{% endblock %}
+
+{% block header %}
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo">
+                <a href="{% url 'home' %}">
+                    {% if user_info %}
+                        {{ user_info.name }} Dev
+                    {% else %}
+                        My Portfolio
+                    {% endif %}
+                </a>
+            </h1>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+                    <li><a class="nav-link scrollto" href="#about">About</a></li>
+                    <li><a class="nav-link scrollto" href="#resume">Resume</a></li>
+                    <li><a class="nav-link scrollto" href="#contact">Contact</a></li>
+                    <li><a class="nav-link scrollto" href="{% url 'post_list' %}">Blog</a></li>
+                    {% if user.is_authenticated %}
+                        <li><a class="nav-link scrollto" href="{% url 'post_create' %}">New Post</a></li>
+                        <li><a class="nav-link scrollto" href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a class="nav-link scrollto" href="{% url 'login' %}">Login</a></li>
+                    {% endif %}
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav>
+        </div>
+    </header>
+{% endblock %}
+
+{% block sidebar %}
+    <!-- ======= Hero Section ======= -->
+    <div id="hero" class="hero route bg-image" style="background-image: url({% static 'img/hero-bg.jpg' %})">
+        <div class="overlay-itro"></div>
+        <div class="hero-content display-table">
+            <div class="table-cell">
+                <div class="container">
+                    <h1 class="hero-title mb-4">
+                        {% if user_info %}
+                            I am {{ user_info.name }} {{ user_info.surname }}
+                        {% else %}
+                            I am Developer
+                        {% endif %}
+                    </h1>
+                    <p class="hero-subtitle">
+                        <span class="typed"
+                              data-typed-items='["Django Developer", "Freelancer", "Programmer", "Back-end Developer"]'></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Hero Section -->
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about-mf sect-pt4 route">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="box-shadow-full">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-sm-6 col-md-5">
+                                        <div class="about-img">
+                                            <img src="{% static 'img/profile-img.jpg' %}"
+                                                 class="img-fluid rounded b-shadow-a" alt="Profile Image">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-7">
+                                        <div class="about-info">
+                                            <p>
+                                                <span class="title-s">Name: </span>
+                                                <span>{% if user_info %}{{ user_info.name }}
+                                                    {{ user_info.surname }}{% else %}No name{% endif %}</span>
+                                            </p>
+                                            <p>
+                                                <span class="title-s">Profile: </span>
+                                                <span>{% if user_info %}{{ user_info.job.job }}{% else %}
+                                                    Developer{% endif %}</span>
+                                            </p>
+                                            <p>
+                                                <span class="title-s">Email: </span>
+                                                <span>{% if user_info %}{{ user_info.email }}{% else %}
+                                                    example@email.com{% endif %}</span>
+                                            </p>
+                                            <p>
+                                                <span class="title-s">Phone: </span>
+                                                <span>{% if user_info %}{{ user_info.phone_number }}{% else %}+998 00
+                                                    000-00-00{% endif %}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="skill-mf">
+                                    <p class="title-s">Skills</p>
+                                    {% if skills %}
+                                        {% for skill in skills %}
+                                            <span>{{ skill.name }}</span>
+                                            <span class="pull-right">{{ skill.percentage }}%</span>
+                                            <div class="progress">
+                                                <div class="progress-bar" role="progressbar"
+                                                     style="width: {{ skill.percentage }}%;"
+                                                     aria-valuenow="{{ skill.percentage }}"
+                                                     aria-valuemin="0" aria-valuemax="100">
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <span>No skills added yet</span>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="about-me pt-4 pt-md-0">
+                                    <div class="title-box-2">
+                                        <h5 class="title-left">About me</h5>
+                                    </div>
+                                    {% if user_info %}
+                                        <p class="lead">{{ user_info.about_me|linebreaks|truncatewords:50 }}</p>
+                                    {% else %}
+                                        <p class="lead">No information available.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Counter Section ======= -->
+    <div class="section-counter paralax-mf bg-image" style="background-image: url({% static 'img/counters-bg.jpg' %})">
+        <div class="overlay-mf"></div>
+        <div class="container position-relative">
+            <div class="row">
+                <div class="col-sm-3 col-lg-3">
+                    <div class="counter-box counter-box pt-4 pt-md-0">
+                        <div class="counter-ico">
+                            <span class="ico-circle"><i class="bi bi-check"></i></span>
+                        </div>
+                        <div class="counter-num">
+                            <p data-purecounter-start="0"
+                               data-purecounter-end="
+                                       {% if user_info %}{{ user_info.works_completed }}{% else %}0{% endif %}"
+                               data-purecounter-duration="1"
+                               class="counter purecounter"></p>
+                            <span class="counter-text">WORKS COMPLETED</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-lg-3">
+                    <div class="counter-box pt-4 pt-md-0">
+                        <div class="counter-ico">
+                            <span class="ico-circle"><i class="bi bi-journal-richtext"></i></span>
+                        </div>
+                        <div class="counter-num">
+                            <p data-purecounter-start="0"
+                               data-purecounter-end="
+                                       {% if user_info %}{{ user_info.years_of_experience }}{% else %}0{% endif %}"
+                               data-purecounter-duration="1"
+                               class="counter purecounter"></p>
+                            <span class="counter-text">YEARS OF EXPERIENCE</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-lg-3">
+                    <div class="counter-box pt-4 pt-md-0">
+                        <div class="counter-ico">
+                            <span class="ico-circle"><i class="bi bi-people"></i></span>
+                        </div>
+                        <div class="counter-num">
+                            <p data-purecounter-start="0"
+                               data-purecounter-end="
+                                       {% if user_info %}{{ user_info.total_clients }}{% else %}0{% endif %}"
+                               data-purecounter-duration="1"
+                               class="counter purecounter"></p>
+                            <span class="counter-text">TOTAL CLIENTS</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3 col-lg-3">
+                    <div class="counter-box pt-4 pt-md-0">
+                        <div class="counter-ico">
+                            <span class="ico-circle"><i class="bi bi-award"></i></span>
+                        </div>
+                        <div class="counter-num">
+                            <p data-purecounter-start="0"
+                               data-purecounter-end="{% if user_info %}{{ user_info.award_won }}{% else %}0{% endif %}"
+                               data-purecounter-duration="1"
+                               class="counter purecounter"></p>
+                            <span class="counter-text">AWARD WON</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><!-- End Counter Section -->
+
+    <!-- ======= Resume Section ======= -->
+    <section id="resume" class="resume">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="title-box text-center">
+                        <h3 class="title-a">Resume</h3>
+                        <p class="subtitle-a">My professional experience and education</p>
+                        <div class="line-mf"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-6" data-aos="fade-up">
+                    <h3 class="resume-title">Summary</h3>
+                    <div class="resume-item pb-0">
+                        <h4>{% if user_info %}{{ user_info.name }} {{ user_info.surname }}{% else %}
+                            Developer{% endif %}</h4>
+                        <p><em>
+                            {% if user_info %}{{ user_info.about_me|truncatewords:20 }}{% else %}Experienced developer
+                                with a passion for creating innovative solutions.{% endif %}</em></p>
+                        <ul>
+                            <li>{% if user_info %}{{ user_info.phone_number }}{% else %}Phone number{% endif %}</li>
+                            <li>{% if user_info %}{{ user_info.email }}{% else %}Email address{% endif %}</li>
+                        </ul>
+                    </div>
+
+                    <h3 class="resume-title">Education</h3>
+                    <div class="resume-item">
+                        <h4>Bachelor of Science in Computer Science</h4>
+                        <h5>2020 - 2024</h5>
+                        <p><em>Urgench State University, Uzbekistan</em></p>
+                        <p>Studied computer science with a focus on web development, algorithms, and database
+                            management.</p>
+                    </div>
+                </div>
+
+                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                    <h3 class="resume-title">Professional Experience</h3>
+                    <div class="resume-item">
+                        <h4>Django Developer</h4>
+                        <h5>2023 - Present</h5>
+                        <p><em>Freelance & Personal Projects</em></p>
+                        <ul>
+                            <li>Developed full-stack web applications using Django and Python</li>
+                            <li>Created RESTful APIs for mobile and web applications</li>
+                            <li>Implemented responsive designs using Bootstrap and CSS</li>
+                            <li>Managed databases and optimized query performance</li>
+                        </ul>
+                    </div>
+                    <div class="resume-item">
+                        <h4>Back-end Developer</h4>
+                        <h5>2022 - 2023</h5>
+                        <p><em>Freelance Projects</em></p>
+                        <ul>
+                            <li>Built e-commerce websites with payment integration</li>
+                            <li>Developed content management systems</li>
+                            <li>Implemented user authentication and authorization</li>
+                            <li>Created blog platforms with comment systems</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Resume Section -->
+
+    <!-- ======= Contact Section ======= -->
+    <section id="contact" class="paralax-mf footer-paralax bg-image sect-mt4 route"
+             style="background-image: url({% static 'img/overlay-bg.jpg' %})">
+        <div class="overlay-mf"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="contact-mf">
+                        <div id="contact" class="box-shadow-full">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="title-box-2">
+                                        <h5 class="title-left">Send Message</h5>
+                                    </div>
+                                    <div>
+                                        <form action="{% url 'contact' %}" method="post" role="form">
+                                            {% csrf_token %}
+                                            <div class="row">
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-group">
+                                                        <input type="text" name="name" class="form-control"
+                                                               id="name" placeholder="Your Name" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-group">
+                                                        <input type="email" class="form-control" name="email"
+                                                               id="email" placeholder="Your Email" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 mb-3">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" name="subject"
+                                                               id="subject" placeholder="Subject" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <textarea class="form-control" name="message" rows="5"
+                                                                  placeholder="Message" required></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 text-center my-3">
+                                                    <div class="loading">Loading</div>
+                                                    <div class="error-message"></div>
+                                                    <div class="sent-message">Your message has been sent. Thank you!
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 text-center">
+                                                    <button type="submit"
+                                                            class="button button-a button-big button-rouded">
+                                                        Send Message
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="title-box-2 pt-4 pt-md-0">
+                                        <h5 class="title-left">Get in Touch</h5>
+                                    </div>
+                                    <div class="more-info">
+                                        <p class="lead">
+                                            Have a question or want to work together? Feel free to reach out!
+                                        </p>
+                                        <ul class="list-ico">
+                                            <li>
+                                                <span class="bi bi-geo-alt"></span>
+                                                {% if user_info %}
+                                                    Uzbekistan, Khorezm
+                                                {% else %}
+                                                    Your Location
+                                                {% endif %}
+                                            </li>
+                                            <li>
+                                                <span class="bi bi-phone"></span>
+                                                {% if user_info %}{{ user_info.phone_number }}{% else %}Phone
+                                                    number{% endif %}
+                                            </li>
+                                            <li>
+                                                <span class="bi bi-envelope"></span>
+                                                {% if user_info %}{{ user_info.email }}{% else %}Emailaddress{% endif %}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="socials">
+                                        <ul>
+                                            <li><a href="#"><span class="ico-circle"><i
+                                                    class="bi bi-facebook"></i></span></a></li>
+                                            <li><a href="#"><span class="ico-circle"><i
+                                                    class="bi bi-instagram"></i></span></a></li>
+                                            <li><a href="#"><span class="ico-circle"><i
+                                                    class="bi bi-twitter"></i></span></a></li>
+                                            <li><a href="#"><span class="ico-circle"><i
+                                                    class="bi bi-linkedin"></i></span></a></li>
+                                            <li><a href="#"><span class="ico-circle"><i class="bi bi-github"></i></span></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- End Contact Section -->
+
+    <!-- ======= Recent Blog Posts Section ======= -->
+    {% if posts %}
+        <section id="blog-posts" class="blog-mf sect-pt4 route">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="title-box text-center">
+                            <h3 class="title-a">Recent Blog Posts</h3>
+                            <p class="subtitle-a">Check out my latest articles</p>
+                            <div class="line-mf"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for post in posts %}
+                        <div class="col-md-4">
+                            <div class="card card-blog">
+                                <div class="card-img">
+                                    {% if post.photo %}
+                                        <img src="{{ post.photo.url }}" alt="{{ post.title }}" class="img-fluid">
+                                    {% else %}
+                                        <img src="{% static 'img/post-img.jpg' %}" alt="Post image" class="img-fluid">
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-category-box">
+                                        <div class="card-category">
+                                            <h6 class="category">{{ post.cat.name }}</h6>
+                                        </div>
+                                    </div>
+                                    <h3 class="card-title">
+                                        <a href="{{ post.get_absolute_url }}">{{ post.title|truncatewords:8 }}</a>
+                                    </h3>
+                                    <p class="card-description">{{ post.body|striptags|truncatewords:15 }}</p>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="post-author">
+                                        <span class="author">{{ post.author.username }}</span>
+                                    </div>
+                                    <div class="post-date">
+                                        <span class="bi bi-clock"></span> {{ post.publish|date:"M d, Y" }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="row text-center mt-4">
+                    <div class="col-12">
+                        <a href="{% url 'post_list' %}" class="button button-a button-big button-rouded">
+                            View All Posts
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}
